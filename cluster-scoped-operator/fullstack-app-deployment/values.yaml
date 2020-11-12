@@ -1,0 +1,15 @@
+app:
+  dbms: postgresql
+  singleHostName: "apps.serv.run"
+  operatorId: my-cluster-operator
+plugin:
+  name: my-plugin
+  image: entando/entando-avatar-plugin
+  ingressPath: /avatarPlugin
+  healthCheckPath: /management/health
+sharedDatabase:
+#  databaseName: "test_db"
+#  host: "openshift.serv.run"
+#  port: 5432
+#  secretName: sample-shared-db-admin-secret
+  createDeployment: true

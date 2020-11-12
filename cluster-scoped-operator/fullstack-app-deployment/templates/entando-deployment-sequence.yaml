@@ -1,0 +1,48 @@
+kind: "EntandoCompositeApp"
+apiVersion: "entando.org/v1"
+metadata:
+  name: "{{ .Release.Name }}-composite-app"
+  annotations:
+    entando.org/operator-id: {{ .Values.app.operatorId }}
+entandoStatus:
+  entandoDeploymentPhase: "requested"
+spec:
+  components:
+    {{- if .Values.sharedDatabase }}
+    - kind: "EntandoCustomResourceReference"
+      metadata:
+        name: "shared-database-reference"
+      spec:
+        targetKind: "EntandoDatabaseService"
+        targetName: "{{ .Release.Name }}-ds"
+    {{- end }}
+    - kind: "EntandoCustomResourceReference"
+      metadata:
+        name: "keycloak-reference"
+      spec:
+        targetKind: "EntandoKeycloakServer"
+        targetName: "{{ .Release.Name }}-kc"
+    - kind: "EntandoCustomResourceReference"
+      metadata:
+        name: "cluster-infrastructure-reference"
+      spec:
+        targetKind: "EntandoClusterInfrastructure"
+        targetName: "{{ .Release.Name }}-eci"
+    - kind: "EntandoCustomResourceReference"
+      metadata:
+        name: "app-reference"
+      spec:
+        targetKind: "EntandoApp"
+        targetName: "{{ .Release.Name }}"
+    - kind: "EntandoCustomResourceReference"
+      metadata:
+        name: "plugin-reference"
+      spec:
+        targetKind: "EntandoPlugin"
+        targetName: "{{ .Values.plugin.name }}"
+    - kind: "EntandoCustomResourceReference"
+      metadata:
+        name: "plugin-link-reference"
+      spec:
+        targetKind: "EntandoAppPluginLink"
+        targetName: "{{ .Release.Name }}-{{ .Values.plugin.name }}-link"

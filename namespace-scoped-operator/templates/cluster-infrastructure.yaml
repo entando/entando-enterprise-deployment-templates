@@ -1,0 +1,21 @@
+kind: "EntandoClusterInfrastructure"
+apiVersion: "entando.org/v1"
+metadata:
+  name: "{{ .Release.Name }}-eci"
+entandoStatus:
+  entandoDeploymentPhase: "ignored"
+spec:
+  dbms: "{{ .Values.app.dbms }}"
+  replicas: 1
+  isDefault: false
+  {{- if .Values.app.singleHostName }}
+  ingressHostName: "{{- .Values.app.singleHostName }}"
+  {{- end }}
+  resourceRequirements:
+    storageRequest: 1Gi
+    storageLimit: 2Gi
+    memoryRequest: 128Mi
+    memoryLimit: 1Gi
+    cpuRequest: 64m
+    cpuLimit: 1000m
+    fileUploadLimit: 500m

@@ -1,0 +1,12 @@
+kind: "EntandoAppPluginLink"
+apiVersion: "entando.org/v1"
+metadata:
+  name: "{{ .Release.Name }}-{{ .Values.plugin.name }}-link"
+  annotations:
+    entando.org/operator-id: {{ .Values.app.operatorId }}
+entandoStatus:
+  entandoDeploymentPhase: "ignored"
+spec:
+  entandoAppName: "{{ .Release.Name }}"
+
+  entandoPluginName: "{{ .Values.plugin.name }}"

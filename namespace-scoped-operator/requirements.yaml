@@ -1,0 +1,7 @@
+dependencies:
+  - alias: operator
+    name: entando-k8s-controller-coordinator
+#    repository: https://chartmuseum-jx.apps.serv.run
+#    version: 6.2.14
+    repository: file:///home/ampie/Code/entando-k8s/entando-k8s-controller-coordinator/charts/entando-k8s-controller-coordinator
+    version: 0.0.1

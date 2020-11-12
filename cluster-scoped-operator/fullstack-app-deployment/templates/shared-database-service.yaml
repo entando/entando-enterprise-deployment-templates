@@ -1,0 +1,29 @@
+{{- if .Values.sharedDatabase }}
+kind: "EntandoDatabaseService"
+apiVersion: "entando.org/v1"
+metadata:
+  name: "{{ .Release.Name }}-ds"
+  annotations:
+    entando.org/operator-id: {{ .Values.app.operatorId }}
+entandoStatus:
+  entandoDeploymentPhase: "ignored"
+spec:
+  dbms: "{{ .Values.app.dbms }}"
+  {{- if .Values.sharedDatabase.databaseName }}
+  databaseName: "{{ .Values.sharedDatabase.databaseName }}"
+  {{- end }}
+  {{- if .Values.sharedDatabase.createDeployment }}
+  createDeployment: true
+  resourceRequirements:
+    storageRequest: 1Gi
+    storageLimit: 5Gi
+    memoryRequest: 128Mi
+    memoryLimit: 512Gi
+    cpuRequest: 64m
+    cpuLimit: 500m
+  {{- else }}
+  secretName: "{{ .Values.sharedDatabase.secretName }}"
+  host: "{{ .Values.sharedDatabase.host }}"
+  port: "{{ .Values.sharedDatabase.port }}"
+  {{- end }}
+{{- end }}

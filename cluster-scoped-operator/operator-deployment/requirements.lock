@@ -1,0 +1,6 @@
+dependencies:
+- name: entando-k8s-controller-coordinator
+  repository: file:///home/ampie/Code/entando-k8s/entando-k8s-controller-coordinator/charts/entando-k8s-controller-coordinator
+  version: 0.0.1
+digest: sha256:1daea0e70a232367dc506606088c6e9187d933e2e562bdd8a19ab19c2b2f9251
+generated: "2020-11-09T16:11:25.628686494+02:00"
