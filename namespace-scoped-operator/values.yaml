@@ -1,6 +1,6 @@
 app:
   dbms: postgresql
-  singleHostName: "apps.serv.run"
+  singleHostName: "entando-sample.apps.serv.run"
 plugin:
   name: my-plugin
   image: entando/entando-avatar-plugin
@@ -16,8 +16,8 @@ sharedDatabase:
 #The main section is named 'operator' to associate it with the dependency with the alias 'operator' in requirements.yaml.
 # This dependency brings in the entando-k8s-controller-coordinator chart that deploys the Entando Operator
 operator:
-  #clusterScope=false instructs the entando-k9s-controller-coordinator template to create several cluster roles for
-  #access to all namespaces and to bind the operator's service account to this roles
+  #clusterScope=false instructs the entando-k9s-controller-coordinator template to create several ClusterRoles for
+  #access to all namespaces and to bind the Entando Operator's service account to this roles
   clusterScope: false
   #imagePullSecrets carry the Docker configuration that allows the various service accounts to pull images from private
   #registries. This is commonly used in conjunction with the ENTANDO_DOCKER_REGISTRY_OVERRIDE environment variable.
@@ -28,12 +28,12 @@ operator:
   #for resources such as Routes that are only supported in openshift
   supportOpenshift: true
   tls:
-    #This is the name of an existing opaque secret in the Operator's namespace that contains the certificates of
+    #This is the name of an existing opaque secret in the Entando Operator's namespace that contains the certificates of
     #all trusted certificate authorities in your environment. This is generally used mainly for self signed
     #certificates.
     caCertSecretName: sample-ca-cert-secret
-    #This is the name of an existing TLS secret in the Operator's namespace that contains the certificate and
-    # private key that will be used to expose your services using HTTPS. In a cluster scoped deployment, this is
+    #This is the name of an existing TLS secret in the Entando Operator's namespace that contains the certificate and
+    # private key that will be used to expose your services using HTTPS. In a cluster-scoped deployment, this is
     #only useful for a wildcard certificate that correspond with the  ENTANDO_DEFAULT_ROUTING_SUFFIX variable specified
     #later. For more information about TLS secrets, consult https://kubernetes.io/docs/concepts/services-networking/ingress/#tls
     tlsSecretName: sample-tls-secret
@@ -48,7 +48,7 @@ operator:
       cpu: 250m
       memory: 128Mi
   env:
-    #When the operator's security mode is set to strict, the operator knows that it lacks certain permissions and it
+    #When the Entando Operator's security mode is set to strict, the Entando Operator knows that it lacks certain permissions and it
     #avoids running Kubernetes operations that require these permissions. For instance, it knows that it is not allowed to read
     #Secrets from other namespaces.
     ENTANDO_K8S_OPERATOR_SECURITY_MODE: "strict"
@@ -56,33 +56,33 @@ operator:
     #In such scenarios it will prefix the name and namespace of the resource in question to this suffix to generate
     #a unique hostname for the deployment
     ENTANDO_DEFAULT_ROUTING_SUFFIX: apps.serv.run
-    #The amount of time the operator should be allowed to wait for Pods to shutdown during pod deletion operations
+    #The amount of time the Entando Operator should be allowed to wait for Pods to shutdown during pod deletion operations
     ENTANDO_POD_SHUTDOWN_TIMEOUT_SECONDS: "240"
-    #The amount of time the operator should be allowed to wait for Pods to enter the ready state during pod creation operations
+    #The amount of time the Entando Operator should be allowed to wait for Pods to enter the ready state during pod creation operations
     ENTANDO_POD_READINESS_TIMEOUT_SECONDS: "1000"
-    #The amount of time the operator should be allowed to wait for Pods to run to completion for the run to completion Pods the operator creates
+    #The amount of time the Entando Operator should be allowed to wait for Pods to run to completion for the run to completion Pods the Entando Operator creates
     ENTANDO_POD_COMPLETION_TIMEOUT_SECONDS: "1000"
     #Keycloak requires HTTPS connections for all requests to its APIs. For most cluster-local requests scenarios
-    #this would be difficult to achieve so the operator switches this requirement off by default.
+    #this would be difficult to achieve so the Entando Operator switches this requirement off by default.
     ENTANDO_DISABLE_KEYCLOAK_SSL_REQUIREMENT: "true"
-    #When using a shared database, the Operator would have super user access to the database in question. Sometimes
+    #When using a shared database, the Entando Operator would have super user access to the database in question. Sometimes
     #the secrets used for specific schemas are deleted by accident. This switch ensures that new passwords will be
     #forcibly created in case the original secret has been lost.
     ENTANDO_K8S_OPERATOR_FORCE_DB_PASSWORD_RESET: "true"
     #In some on-premise installations, there are additional governance mechanisms in place to vet and clone images to
-    #a private registry. This variable is used to point the operator to this private registry. Use this in conjunction
-    #with the previously defined imagePullSecret(s) to ensure the operator has access.
+    #a private registry. This variable is used to point the Entando Operator to this private registry. Use this in conjunction
+    #with the previously defined imagePullSecret(s) to ensure the Entando Operator has access.
     ENTANDO_DOCKER_REGISTRY_OVERRIDE: "docker.io"
     #As with the registry override, you can also override the "organization" segment of our image uris.
     ENTANDO_DOCKER_ORG_OVERRIDE: "entando"
-    #This variable instructs the operator to create empty TLS secrets for Ingresses. This allows the Kubernetes or
+    #This variable instructs the Entando Operator to create empty TLS secrets for Ingresses. This allows the Kubernetes or
     #Openshift cluster to serve the default certificate associated with its router. This can be considered an alternative
     #approach to having a default routing suffix and wildcard certificate, but it does create some complexities
     #around the type of certificate that needs to be used.
     ENTANDO_USE_AUTO_CERT_GENERATION: "true"
-    #By default, all resources created to support an Entando custom resource are created as child resources of the original
+    #By default, all resources created to support an Entando Custom Resource are created as child resources of the original
     #resource. This simplifies gargbage collection when Entand custom resources are deleted. However, in a shared
     #environment certain resources like PVCs bind to storage that you may or may not want to leave in tact. Setting
-    #this variable to true means that PVCs remain in tact, and if you recreate an Entando custom resource the
+    #this variable to true means that PVCs remain in tact, and if you recreate an Entando Custom Resource the
     #resulting deployments will reattach to these existing PVCs
     ENTANDO_K8S_OPERATOR_DISABLE_PVC_GARBAGE_COLLECTION: "true"

@@ -1,6 +1,6 @@
 apiVersion: v1
 stringData:
-  tls.crt: >-
+  tls.crt: |+
     -----BEGIN CERTIFICATE-----
     MIIDDDCCAfSgAwIBAgIBCzANBgkqhkiG9w0BAQsFADAmMSQwIgYDVQQDDBtvcGVu
     c2hpZnQtc2lnbmVyQDE1MjYzODEyNDYwHhcNMTkxMjE2MDcwNTE5WhcNMjExMjE1
@@ -38,7 +38,7 @@ stringData:
     FUij4ToJQ4PDL0D5IYB5Oc86Wm2BDDH8WIrV8M+zINb+3xcZgF8E0TyJ/jQjG+0t
     nGteWvOMMt0L/9wLc7PuDx6aKD+A84QxVsw6xnnp
     -----END CERTIFICATE-----
-  tls.key: >-
+  tls.key: |+
     -----BEGIN RSA PRIVATE KEY-----
     MIIEpAIBAAKCAQEA8L5zHEFb08oVpKJ4szbdcGNQxVPoEW5IO0CuO6tvDLf+H+Kc
     RVQs8k8t3SOjslzwKhDQJmM+exYH4UXHdd2sMBHFIv/TKJoiEB/UMAmlAmy0tkgN
